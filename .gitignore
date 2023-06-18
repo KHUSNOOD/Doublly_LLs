@@ -1,32 +1,49 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+#include<iostream>
+using namespace std;
+struct node{
+    struct node *prev; // Previous node is necessary in doublly LL 
+    int data;
+    struct node *next;
+};
+struct node *first=0;
+void create(int a[], int n){
+    struct node*temp=new node;
+    struct node *last;
+    first=new node;
+    first->data=a[0];
+    first->prev=first->next=0; // if no node prev and next both is null;
+    last=first;
+    for(int i=1; i<n ; i++){
+        temp=new node;
+        temp->data=a[i];
+        temp->next=last->next; 
+        temp->prev=last; // Previous is linked with last;
+        last->next=temp;  // last's next is storing the value of temp's data;
+        last=temp;     // finally modifying last to new node temp;
+        
+    }
+    
+}
+void len(struct node *p){
+    int l=0;
+    while(p!=0){
+        l++;
+        p=p->next;
+    }
+     cout<<l<<endl;
+}
+void display(struct node *p){
+    if(p!=0){
+        cout<<p->data<<" ";
+        display(p->next);
+    }
+   
+}
+int main(){
+    int a[]={1,2,4,4,5,6,7};
+    int n=sizeof(a)/sizeof(a[0]);
+    create(a,n);
+    len(first);
+    display(first);
+    return 0;
+}
